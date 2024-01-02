@@ -1,0 +1,54 @@
+version: "3.9"
+name: "test"
+
+services:
+
+  test-database:
+    image: mysql:8.2.0
+    container_name: test-database
+    restart: "always"
+    volumes:
+      - data:/var/lib/mysql
+      - ./mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+      - ./test.sql:/docker-entrypoint-initdb.d/test.sql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: yes
+      MYSQL_DATABASE: test
+      MYSQL_USER: testadmin
+      MYSQL_PASSWORD: L33tH4x0rP4$$w0rd
+      TZ: UTC
+    healthcheck:
+      test: mysqladmin ping -h localhost
+      start_period: 10s
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  test-backup:
+    image: databack/mysql-backup:1.0.0-rc1
+    container_name: test-backup
+    restart: "no"
+    volumes:
+      - backup:/backup
+    environment:
+      TZ: UTC
+      DB_NAMES: test
+      DB_SERVER: test-database
+      DB_PORT: 3306
+      DB_USER: testadmin
+      DB_PASSWORD: L33tH4x0rP4$$w0rd
+      DB_DUMP_TARGET: /backup
+    command: dump
+    depends_on:
+      test-database:
+        condition: service_healthy
+
+volumes:
+  data:
+    name: "test-data"
+  backup:
+    name: "test-data-backup"
+
+networks:
+  default:
+    name: test-network
