@@ -25,7 +25,7 @@ services:
       retries: 5
 
   test-backup:
-    image: databack/mysql-backup:1.0.0-rc1
+    image: databack/mysql-backup:9ccbe20615bdeeefd759e820ecf3158b6a8c3c0c
     container_name: test-backup
     restart: "no"
     volumes:
