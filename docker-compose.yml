@@ -29,7 +29,7 @@ services:
     container_name: test-backup
     restart: "no"
     volumes:
-      - backup:/backup
+      - backup:/home/appuser/backup
     environment:
       TZ: UTC
       DB_NAMES: test
@@ -37,7 +37,7 @@ services:
       DB_PORT: 3306
       DB_USER: testadmin
       DB_PASS: L33tH4x0rP4$$w0rd
-      DB_DUMP_TARGET: /backup
+      DB_DUMP_TARGET: /home/appuser/backup
     command: dump
     depends_on:
       test-database:
