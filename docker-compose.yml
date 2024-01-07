@@ -28,6 +28,7 @@ services:
     image: databack/mysql-backup:cf11d58e1bc01aedb99da1437cf0e852f874520f
     container_name: test-backup
     restart: "no"
+    user: "0"
     volumes:
       - backup:/home/appuser/backup
     environment:
