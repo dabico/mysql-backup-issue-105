@@ -36,7 +36,7 @@ services:
       DB_SERVER: test-database
       DB_PORT: 3306
       DB_USER: testadmin
-      DB_PASSWORD: L33tH4x0rP4$$w0rd
+      DB_PASS: L33tH4x0rP4$$w0rd
       DB_DUMP_TARGET: /backup
     command: dump
     depends_on:
